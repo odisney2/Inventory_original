@@ -1,8 +1,69 @@
-﻿<body>
-    <h1>Inventory</h1>
-    <div>
-        @RenderBody()
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+    <link href="~/Content/Site.css" rel="stylesheet" />
+
+
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mainMenu" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                <!--old way<a class="navbar-brand" href="/"> Item </a>-->
+                @Html.ActionLink("Item", "Index", "Home", null, new { @class = "navbar-brand" })
+
+            </div>
+            <div class="collapse navbar-collapse" id="mainMenu">
+                <ul class="nav navbar-nav">
+                    <li>
+                        @Html.ActionLink("Items", "Index", "Item")
+
+                        <!-- Old way <a href="/Item">Items</a>-->
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+
+    <!--
+    <nav class="nav nav-pills nav-justified">
+        <a class="nav-link active" href="#">Active</a>
+        <a class="nav-link" href="#">Longer nav link</a>
+        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link disabled" href="#">Disabled</a>
+    </nav> -->
+
+    <div class="container">
+        <h1>Inventory</h1>
+    <div>@RenderBody()</div>
     </div>
-    <footer>Inventory &copy; Disney Developer</footer>
+
+    <footer style="text-align:center">Inventory &copy; @DateTime.Now.Year Disney Developers</footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
 </body>
 
+
+
+</html>

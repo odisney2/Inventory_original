@@ -82,28 +82,42 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Site.css" />
+    <Content Include="Content_bad\Site.css" />
     <Content Include="Global.asax" />
     <Content Include="Web_backup.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ItemListViewModel.cs" />
+    <Compile Include="Models\ItemViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Web_backup2..config" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Item\Index.cshtml" />
     <Content Include="Web.config" />
+    <Content Include="Views\Web.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web_backup2..Debug.config">
+      <DependentUpon>Web_backup2..config</DependentUpon>
+    </None>
+    <None Include="Web_backup2..Release.config">
+      <DependentUpon>Web_backup2..config</DependentUpon>
     </None>
     <None Include="Web_backup.Debug.config">
       <DependentUpon>Web_backup.config</DependentUpon>
@@ -112,9 +126,7 @@
       <DependentUpon>Web_backup.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

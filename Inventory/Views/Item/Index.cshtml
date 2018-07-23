@@ -1,0 +1,26 @@
+﻿@model Inventory.Models.ItemListViewModel
+
+@{
+    ViewBag.Title = "Items";
+}
+
+<h2>Items</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var i = 0; i < Model.Items.Count; i++)
+        {
+            <tr>
+                <td>@Model.Items[i].DisplayName</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+Total Items: @Model.TotalItems
+
