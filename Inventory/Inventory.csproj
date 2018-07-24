@@ -108,6 +108,14 @@
     <Compile Include="Migrations\201807232255314_InitialMigration.Designer.cs">
       <DependentUpon>201807232255314_InitialMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807241244128_Added ItemType to Project.cs" />
+    <Compile Include="Migrations\201807241244128_Added ItemType to Project.Designer.cs">
+      <DependentUpon>201807241244128_Added ItemType to Project.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807241345103_addingItemType.cs" />
+    <Compile Include="Migrations\201807241345103_addingItemType.Designer.cs">
+      <DependentUpon>201807241345103_addingItemType.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\ItemListViewModel.cs" />
@@ -153,6 +161,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201807232255314_InitialMigration.resx">
       <DependentUpon>201807232255314_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807241244128_Added ItemType to Project.resx">
+      <DependentUpon>201807241244128_Added ItemType to Project.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807241345103_addingItemType.resx">
+      <DependentUpon>201807241345103_addingItemType.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

@@ -19,35 +19,41 @@ namespace Inventory.Controllers
         // GET: ItemType
         public ActionResult Index()
         {
-            var itemTypeList = new ItemTypeListViewModel
+            using (var InventoryContext = new InventoryContext())
             {
-                ItemTypes = ItemTypes.Select(i => new ItemTypeViewModel
+                var itemTypeList = new ItemTypeListViewModel
                 {
-                    ItemTypeId = i.ItemTypeId,
-                    ItemTypeDisplayName = i.ItemTypeDisplayName,
-                    ItemTypeNotes = i.ItemTypeNotes
-                }).ToList()
+                    //Convert each Person to a PersonViewModel
+                    ItemTypes = InventoryContext.ItemTypes.Select(p => new ItemTypeViewModel
+                    {
+                        ItemTypeId = p.ItemTypeId,
+                        ItemTypeDisplayName = p.ItemTypeDisplayName,
+                        ItemTypeNotes = p.ItemTypeNotes
+                    }).ToList()
+                };
 
-            };
+                itemTypeList.TotalItemTypes = itemTypeList.ItemTypes.Count;
 
-            itemTypeList.TotalItemTypes = itemTypeList.ItemTypes.Count;
-
-            return View(itemTypeList);
+                return View(itemTypeList);
+            }
         }
 
         public ActionResult ItemTypeDetail(int id)
         {
-            var itemType = ItemTypes.SingleOrDefault(i => i.ItemTypeId == id);
-            if (itemType != null)
+            using (var inventoryContext = new InventoryContext())
             {
-                var itemTypeViewModel = new ItemTypeViewModel
+                var itemType = inventoryContext.ItemTypes.SingleOrDefault(p => p.ItemTypeId == id);
+                if (itemType != null)
                 {
-                    ItemTypeId = itemType.ItemTypeId,
-                    ItemTypeDisplayName = itemType.ItemTypeDisplayName,
-                    ItemTypeNotes = itemType.ItemTypeNotes
-                };
+                    var itemTypeViewModel = new ItemTypeViewModel
+                    {
+                        ItemTypeId = itemType.ItemTypeId,
+                        ItemTypeDisplayName = itemType.ItemTypeDisplayName,
+                        ItemTypeNotes = itemType.ItemTypeNotes
+                    };
 
-                return View(itemTypeViewModel);
+                    return View(itemTypeViewModel);
+                }
             }
 
             return new HttpNotFoundResult();
@@ -59,23 +65,86 @@ namespace Inventory.Controllers
 
             return View("AddEditItemType", itemTypeViewModel);
         }
-
+        
         [HttpPost]
         public ActionResult AddItemType(ItemTypeViewModel itemTypeViewModel)
         {
-            var nextItemTypeId = ItemTypes.Max(p => p.ItemTypeId) + 1;
-
-            var itemType = new ItemType
+            using (var inventoryContext = new InventoryContext())
             {
-                ItemTypeId = nextItemTypeId,
-                ItemTypeDisplayName = itemTypeViewModel.ItemTypeDisplayName,
-                ItemTypeNotes = itemTypeViewModel.ItemTypeNotes
-            };
+                var itemType = new ItemType
+                {
+                    ItemTypeDisplayName = itemTypeViewModel.ItemTypeDisplayName,
+                    ItemTypeNotes = itemTypeViewModel.ItemTypeNotes
+                };
 
-            ItemTypes.Add(itemType);
+                inventoryContext.ItemTypes.Add(itemType);
+                inventoryContext.SaveChanges();
+            }
 
             return RedirectToAction("Index");
         }
+
+        public ActionResult ItemTypeEdit(int id)
+        {
+            using (var inventoryContext = new InventoryContext())
+            {
+                var itemType = inventoryContext.ItemTypes.SingleOrDefault(p => p.ItemTypeId == id);
+                if (itemType != null)
+                {
+                    var itemTypeViewModel = new ItemTypeViewModel
+                    {
+                        ItemTypeId = itemType.ItemTypeId,
+                        ItemTypeDisplayName = itemType.ItemTypeDisplayName,
+                        ItemTypeNotes = itemType.ItemTypeNotes
+                    };
+
+                    return View("AddEditItemType", itemTypeViewModel);
+                }
+            }
+
+            return new HttpNotFoundResult();
+        }
+
+        [HttpPost]
+        public ActionResult EditItemType(ItemTypeViewModel itemTypeViewModel)
+        {
+            using (var inventoryContext = new InventoryContext())
+            {
+                var itemType = inventoryContext.ItemTypes.SingleOrDefault(p => p.ItemTypeId == itemTypeViewModel.ItemTypeId);
+
+                if (itemType != null)
+                {
+                    itemType.ItemTypeDisplayName = itemTypeViewModel.ItemTypeDisplayName;
+                    itemType.ItemTypeNotes = itemTypeViewModel.ItemTypeNotes;
+
+                    inventoryContext.SaveChanges();
+
+                    return RedirectToAction("Index");
+                }
+            }
+
+            return new HttpNotFoundResult();
+        }
+
+        [HttpPost]
+        public ActionResult DeleteItemType(ItemTypeViewModel itemTypeViewModel)
+        {
+            using (var inventoryContext = new InventoryContext())
+            {
+                var itemType = inventoryContext.ItemTypes.SingleOrDefault(p => p.ItemTypeId == itemTypeViewModel.ItemTypeId);
+
+                if (itemType != null)
+                {
+                    inventoryContext.ItemTypes.Remove(itemType);
+                    inventoryContext.SaveChanges();
+
+                    return RedirectToAction("Index");
+                }
+            }
+
+            return new HttpNotFoundResult();
+        }
+
 
     }
 }

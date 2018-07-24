@@ -16,6 +16,8 @@ namespace Inventory.Models
         [DisplayName("Item Notes")]
         public string ItemNotes { get; set; }
 
+        public ItemTypeViewModel ItemType { get; set; }
+
         [DisplayName("Item Full Info")]
         public string ItemFullInfo => DisplayName + " " + ItemNotes;
 

@@ -1,7 +1,7 @@
 ﻿@model Inventory.Models.ItemTypeViewModel
 @{
     var isEditMode = Model.ItemTypeId != null;
-    ViewBag.Title = "Add Item Type";
+    ViewBag.Title = isEditMode ? "Edit " + Model.ItemTypeDisplayName : "Add Item Type";
 }
 
 <h2>@Model.ItemTypeDisplayName</h2>

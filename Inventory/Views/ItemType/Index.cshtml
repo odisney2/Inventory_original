@@ -17,7 +17,35 @@
         {
             <tr>
                 <td>@Model.ItemTypes[i].ItemTypeDisplayName</td>
-                <td>@Html.ActionLink("Detail", "ItemTypeDetail", new { id = Model.ItemTypes[i].ItemTypeId })</td>
+                <td>
+                    @Html.ActionLink("Detail", "ItemTypeDetail", new { id = Model.ItemTypes[i].ItemTypeId })
+                    | @Html.ActionLink("Edit", "ItemTypeEdit", new { id = Model.ItemTypes[i].ItemTypeId })
+                    | <a data-toggle="modal" href="@("#deleteItemTypeModal" + i)">Delete</a>
+                    <div class="modal fade" id="@("deleteItemTypeModal" + i)" tabindex="-1" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                @using (Html.BeginForm("DeleteItemType", "ItemType"))
+                                {
+                                    <input type="hidden" value="@Model.ItemTypes[i].ItemTypeId" name="ItemTypeId" />
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Delete @Model.ItemTypes[i].ItemTypeDisplayName</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>
+                                            ---- <strong>WARNING</strong> - If you delete this Item Type, all of the Items that has this Item Type, will be deleted!!!!----<br />
+                                            Are you sure you want to delete @Model.ItemTypes[i].ItemTypeDisplayName?
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Yes</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </td>
             </tr>
         }
     </tbody>
