@@ -1,0 +1,20 @@
+﻿@model Inventory.Models.ItemTypeViewModel
+@{
+    ViewBag.Title = "ItemType Detail";
+}
+
+<h2>@Model.ItemTypeDisplayName</h2>
+
+<div class="row">
+    <div class="col-sm-12 form-group">
+        @Html.LabelFor(m => m.ItemTypeDisplayName)
+        <br />@Html.DisplayFor(m => m.ItemTypeDisplayName)
+    </div>
+    <div class="col-sm-12 form-group">
+        @Html.LabelFor(m => m.ItemTypeNotes)
+        <br />@Html.DisplayFor(m => m.ItemTypeNotes)
+    </div>
+    <div class="col-sm-12">
+        @Html.ActionLink("Done", "Index", null, new { @class = "btn btn-primary" })
+    </div>
+</div>

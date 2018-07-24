@@ -1,0 +1,32 @@
+﻿@model Inventory.Models.ItemTypeListViewModel
+
+@{
+    ViewBag.Title = "ItemType - Index";
+}
+
+<h2>Item Type</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Item Type Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var i = 0; i < Model.ItemTypes.Count; i++)
+        {
+            <tr>
+                <td>@Model.ItemTypes[i].ItemTypeDisplayName</td>
+                <td>@Html.ActionLink("Detail", "ItemTypeDetail", new { id = Model.ItemTypes[i].ItemTypeId })</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="col-sm-12 form-group">
+    <label>Total Item Types:</label> @Model.TotalItemTypes
+</div>
+<div class="col-sm-12">
+    @Html.ActionLink("Add Item Type", "ItemTypeAdd", null, new { @class = "btn btn-primary" })
+</div>
+

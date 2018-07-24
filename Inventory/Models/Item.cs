@@ -10,6 +10,5 @@ namespace Inventory.Models
         public int ItemId { get; set; }
         public string DisplayName { get; set; }
         public string ItemNotes { get; set; }
-
     }
 }

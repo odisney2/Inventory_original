@@ -1,0 +1,28 @@
+﻿@model Inventory.Models.ItemTypeViewModel
+@{
+    var isEditMode = Model.ItemTypeId != null;
+    ViewBag.Title = "Add Item Type";
+}
+
+<h2>@Model.ItemTypeDisplayName</h2>
+
+<div class="row">
+    <div class="col-sm-6 col-xs-10">
+        @using (Html.BeginForm(isEditMode ? "EditItemType" : "AddItemType", "ItemType"))
+        {
+            @Html.HiddenFor(m => m.ItemTypeId)
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.ItemTypeDisplayName)
+                @Html.TextBoxFor(m => m.ItemTypeDisplayName, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ItemTypeNotes)
+                @Html.TextBoxFor(m => m.ItemTypeNotes, new { @class = "form-control" })
+            </div>
+            <button type="submit" class="btn btn-primary">@(isEditMode ? "Save" : "Add")</button>
+            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-default" })
+        }
+    </div>
+</div>
+

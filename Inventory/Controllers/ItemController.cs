@@ -22,38 +22,41 @@ namespace Inventory.Controllers
 
         public ActionResult Index()
         {
-            var itemsList = new ItemListViewModel
+            using (var InventoryContext = new InventoryContext())
             {
-                // This part convert each Item to a ItemViewModel
-                Items = Items.Select(i => new ItemViewModel
+                var itemList = new ItemListViewModel
                 {
-                    ItemId = i.ItemId,
-                    DisplayName = i.DisplayName,
-                    ItemNotes = i.ItemNotes
-                }).ToList()
+                    //Convert each Person to a PersonViewModel
+                    Items = InventoryContext.Items.Select(p => new ItemViewModel
+                    {
+                        ItemId = p.ItemId,
+                        DisplayName = p.DisplayName,
+                        ItemNotes = p.ItemNotes
+                    }).ToList()
+                };
 
-            };
+                itemList.TotalItems = itemList.Items.Count;
 
-            itemsList.TotalItems = itemsList.Items.Count;
-
-            return View(itemsList);
+                return View(itemList);
+            }
         }
 
         public ActionResult ItemDetail(int id)
         {
-            // SingleOrDefault - operator would throw an exception if more than one elements are satisfied the condition 
-
-            var item = Items.SingleOrDefault(i => i.ItemId == id);
-            if(item != null)
+            using (var inventoryContext = new InventoryContext())
             {
-                var itemViewModel = new ItemViewModel
+                var item = inventoryContext.Items.SingleOrDefault(p => p.ItemId == id);
+                if (item != null)
                 {
-                    ItemId = item.ItemId,
-                    DisplayName = item.DisplayName,
-                    ItemNotes = item.ItemNotes
-                };
+                    var itemViewModel = new ItemViewModel
+                    {
+                        ItemId = item.ItemId,
+                        DisplayName = item.DisplayName,
+                        ItemNotes = item.ItemNotes
+                    };
 
-                return View(itemViewModel);
+                    return View(itemViewModel);
+                }
             }
 
             return new HttpNotFoundResult();
@@ -69,35 +72,37 @@ namespace Inventory.Controllers
         [HttpPost]
         public ActionResult AddItem(ItemViewModel itemViewModel)
         {
-            var nextItemId = Items.Max(i => i.ItemId) + 1;
-
-            var item = new Item
+            using (var inventoryContext = new InventoryContext())
             {
-                ItemId = nextItemId,
-                DisplayName = itemViewModel.DisplayName,
-                ItemNotes = itemViewModel.ItemNotes
-            };
+                var item = new Item
+                {
+                    DisplayName = itemViewModel.DisplayName,
+                    ItemNotes = itemViewModel.ItemNotes
+                };
 
-            Items.Add(item);
+                inventoryContext.Items.Add(item);
+                inventoryContext.SaveChanges();
+            }
 
-            // RedirectToAction - Lets you construct a redirect url to a specific action/controller in your application, that is, it'll use the route table to generate the correct URL.
             return RedirectToAction("Index");
         }
 
         public ActionResult ItemEdit(int id)
         {
-            var item = Items.SingleOrDefault(i => i.ItemId == id);
-            if(item != null)
+            using (var inventoryContext = new InventoryContext())
             {
-                var itemViewModel = new ItemViewModel
+                var item = inventoryContext.Items.SingleOrDefault(p => p.ItemId == id);
+                if (item != null)
                 {
-                    ItemId = item.ItemId,
-                    DisplayName = item.DisplayName,
-                    ItemNotes = item.ItemNotes
-                };
+                    var itemViewModel = new ItemViewModel
+                    {
+                        ItemId = item.ItemId,
+                        DisplayName = item.DisplayName,
+                        ItemNotes = item.ItemNotes
+                    };
 
-                return View("AddEditItem", itemViewModel);
-
+                    return View("AddEditItem", itemViewModel);
+                }
             }
 
             return new HttpNotFoundResult();
@@ -106,13 +111,19 @@ namespace Inventory.Controllers
         [HttpPost]
         public ActionResult EditItem(ItemViewModel itemViewModel)
         {
-            var item = Items.SingleOrDefault(i => i.ItemId == itemViewModel.ItemId);
-            if (item != null)
+            using (var inventoryContext = new InventoryContext())
             {
-                item.DisplayName = itemViewModel.DisplayName;
-                item.ItemNotes = itemViewModel.ItemNotes;
+                var item = inventoryContext.Items.SingleOrDefault(p => p.ItemId == itemViewModel.ItemId);
 
-                return RedirectToAction("Index");
+                if (item != null)
+                {
+                    item.DisplayName = itemViewModel.DisplayName;
+                    item.ItemNotes = itemViewModel.ItemNotes;
+
+                    inventoryContext.SaveChanges();
+
+                    return RedirectToAction("Index");
+                }
             }
 
             return new HttpNotFoundResult();
@@ -121,13 +132,17 @@ namespace Inventory.Controllers
         [HttpPost]
         public ActionResult DeleteItem(ItemViewModel itemViewModel)
         {
-            var item = Items.SingleOrDefault(i => i.ItemId == itemViewModel.ItemId);
-
-            if (item != null)
+            using (var inventoryContext = new InventoryContext())
             {
-                Items.Remove(item);
+                var item = inventoryContext.Items.SingleOrDefault(p => p.ItemId == itemViewModel.ItemId);
 
-                return RedirectToAction("Index");
+                if (item != null)
+                {
+                    inventoryContext.Items.Remove(item);
+                    inventoryContext.SaveChanges();
+
+                    return RedirectToAction("Index");
+                }
             }
 
             return new HttpNotFoundResult();
