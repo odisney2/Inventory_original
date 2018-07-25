@@ -1,6 +1,7 @@
 # Inventory
 Inventory Project
 
+This project used the Lunch Project as a guide and foundation.
 
 This inventory project is to help keep track of what we have for insurance and for personal use
 
